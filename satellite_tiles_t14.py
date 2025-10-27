@@ -36,7 +36,7 @@ class MyDataset(Dataset):
 
         self.image_list_right = self.description['r'].to_list()
         self.image_list_down = self.description['d'].to_list()
-        self.image_list_rotate = self.description['rt'].to_list()
+        #self.image_list_rotate = self.description['rt'].to_list()
 
         self.description = self.description['descriptions_num_gc'].to_list()
         
@@ -49,12 +49,12 @@ class MyDataset(Dataset):
         ytile = self.image_list_ytile[item]
         r = self.image_list_right[item]
         d = self.image_list_down[item]
-        rt = self.image_list_rotate[item]
+        #rt = self.image_list_rotate[item]
         city = self.image_city[item]
         #city = self.image_city
         
-        hint_name = self.image_dir + f'{city}_bg_Stage_2_rt{str(rt)}_{r}_{d}/{str(xtile)}_{str(ytile)}_{r}_{d}.tif'
-        img_name =  self.image_dir + f'{city}_gc_Stage_3_rt{str(rt)}_{r}_{d}/{str(xtile)}_{str(ytile)}_{r}_{d}.tif'
+        hint_name = self.image_dir + f'{city}_bg_Stage_2_{r}_{d}/{str(xtile)}_{str(ytile)}_{r}_{d}.tif'
+        img_name =  self.image_dir + f'{city}_gc_Stage_3_{r}_{d}/{str(xtile)}_{str(ytile)}_{r}_{d}.tif'
         #hint_name = self.image_dir + city + '_4lu_Stage_1_' + r + '_' + d + '/' + str(xtile) + '_' + str(ytile) + '_' + r + '_' + d + '.tif'
         #img_name =  self.image_dir + city + '_4lu_Stage_2_' + r + '_' + d + '/' + str(xtile) + '_' + str(ytile) + '_' + r + '_' + d + '.tif'     
 
