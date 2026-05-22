@@ -41,7 +41,7 @@ conda activate control
 
 **Data**
 
-Download the urban spatial data and place it under a local `Urban_Data/` directory:
+Place the data under a local `Urban_Data/` directory:
 
 ```
 Urban_Data/
@@ -87,17 +87,14 @@ ckpts_s/
 # Train a model from scratch (starting from control_sd15_ini.ckpt)
 python train.py --model step1_nyc --gpu 0 --data_dir /path/to/Urban_Data/
 
-# Resume from an intermediate checkpoint
-python train.py --model step1_chi --gpu 1 --data_dir /path/to/Urban_Data/ \
-    --resume ./ckpts_s/checkpoints_t34/epoch=24-step=24_244549.ckpt
+# Resume from a checkpoint
+python train.py --model step1_nyc --gpu 0 --data_dir /path/to/Urban_Data/ \
+    --resume ./ckpts_s/checkpoints_step1_nyc/epoch=N-step=xxx.ckpt
 
 # Optional arguments
 #   --batch_size N   mini-batch size (default: 2)
 #   --lr LR          learning rate (default: 1e-5)
 ```
-
-Checkpoints are saved every 5 epochs to `./ckpts_s/checkpoints_{id}/`.
-
 ---
 
 ## Inference
@@ -106,40 +103,30 @@ Checkpoints are saved every 5 epochs to `./ckpts_s/checkpoints_{id}/`.
 
 | Mode | Description |
 |---|---|
-| `all` | Full test set, single seed (5354), guidance scale 9.0 |
+| `all` | Full test set, single seed, default guidance scale |
 | `div` | Diversity evaluation: specific tiles × multiple seeds |
 | `trans` | Cross-city transfer: this city's test data with the other city's checkpoint |
-| `scale3` | Full test set with guidance scale 3.0 (ablation) |
-| `consecutive` | Human-in-the-loop case study: manually edited hint image × 80 seeds |
+| `scale3` | Full test set with guidance scale 3.0 (ablation; Step 3 only) |
+| `consecutive` | Human-in-the-loop case study: manually edited hint image × multiple seeds |
 
 ### Usage
 
 ```bash
-# Standard evaluation on full test set
-python inference.py --model step1_nyc  --mode all  --gpu 0 --data_dir /path/to/Urban_Data/
-python inference.py --model step1_chi  --mode all  --gpu 1 --data_dir /path/to/Urban_Data/
-python inference.py --model step2_nyc  --mode all  --gpu 0 --data_dir /path/to/Urban_Data/
-python inference.py --model step2_chi  --mode all  --gpu 1 --data_dir /path/to/Urban_Data/
-python inference.py --model step3_nyc  --mode all  --gpu 0 --data_dir /path/to/Urban_Data/
-python inference.py --model step3_chi  --mode all  --gpu 1 --data_dir /path/to/Urban_Data/
+# Standard evaluation
+python inference.py --model step1_nyc --mode all --gpu 0 --data_dir /path/to/Urban_Data/
 
 # Diversity evaluation
-python inference.py --model step3_nyc  --mode div  --gpu 0 --data_dir /path/to/Urban_Data/
+python inference.py --model step3_nyc --mode div --gpu 0 --data_dir /path/to/Urban_Data/
 
-# Cross-city transfer (only step2_nyc and step3_nyc)
-python inference.py --model step2_nyc  --mode trans --gpu 0 --data_dir /path/to/Urban_Data/
-python inference.py --model step3_nyc  --mode trans --gpu 0 --data_dir /path/to/Urban_Data/
+# Cross-city transfer
+python inference.py --model step2_nyc --mode trans --gpu 0 --data_dir /path/to/Urban_Data/
 
-# Guidance scale ablation (only step3_nyc and step3_chi in the paper)
-python inference.py --model step3_nyc  --mode scale3 --gpu 0 --data_dir /path/to/Urban_Data/
-python inference.py --model step3_chi  --mode scale3 --gpu 1 --data_dir /path/to/Urban_Data/
+# Guidance scale ablation
+python inference.py --model step3_nyc --mode scale3 --gpu 0 --data_dir /path/to/Urban_Data/
 
-# Human-in-the-loop case study (only step2_nyc and step3_nyc)
-# Requires a manually edited hint image placed at:
-#   Vector_Image_Partition/consecutive_test/stage1-revise-88_70_r0_d0_s7.998.jpg  (step2_nyc)
-#   Vector_Image_Partition/consecutive_test/stage2-revise-88_70_r0_d0_s192.jpg    (step3_nyc)
-python inference.py --model step2_nyc  --mode consecutive --gpu 0 --data_dir /path/to/Urban_Data/
-python inference.py --model step3_nyc  --mode consecutive --gpu 0 --data_dir /path/to/Urban_Data/
+# Human-in-the-loop case study
+# Place your manually edited hint image at the path defined in configs.py
+python inference.py --model step2_nyc --mode consecutive --gpu 0 --data_dir /path/to/Urban_Data/
 ```
 
 ### Output
