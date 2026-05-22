@@ -1,17 +1,9 @@
 # =============================================================================
 # Dataset for Stepwise Generative Urban Design
 #
-# A single MyDataset class replaces all six per-model dataset files:
-#   satellite_tiles_t40.py  →  step1_nyc
-#   satellite_tiles_t34.py  →  step1_chi
-#   satellite_tiles_t35.py  →  step2_nyc
-#   satellite_tiles_t36.py  →  step2_chi
-#   satellite_tiles_t37.py  →  step3_nyc
-#   satellite_tiles_t38.py  →  step3_chi
-#
-# The model-specific differences (image paths, text column) are all captured
-# by the hint_pattern / target_pattern / target_ext / desc_col arguments,
-# which are drawn from the model config in configs.py.
+# Unified dataset class for all 6 models (2 cities × 3 pipeline steps).
+# Model-specific differences (image paths, text column) are passed as
+# arguments drawn from the model config in configs.py.
 #
 # This file is not meant to be run directly; it is imported by train.py.
 # =============================================================================

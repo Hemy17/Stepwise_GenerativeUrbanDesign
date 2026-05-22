@@ -41,6 +41,8 @@ conda activate control
 
 **Data**
 
+The processed dataset is not publicly available due to licensing restrictions. 
+
 Place the data under a local `Urban_Data/` directory:
 
 ```
