@@ -1,4 +1,4 @@
-name: cnet_gud
+name: gud
 channels:
   - pytorch
   - defaults

@@ -1,16 +1,28 @@
 .idea/
 
-training/
+# Private notes and internal reference copies (not published)
+_private/
+
+# Training outputs (not tracked)
 lightning_logs/
 image_log/
+output_image/
+tmp/
+train_output.log
+output.log
 
+# Model checkpoints (large files — download separately)
+ckpts_s/
 *.pth
 *.pt
 *.ckpt
 *.safetensors
 
-gradio_pose2image_private.py
-gradio_canny2image_private.py
+# Mac system files
+.DS_Store
+
+# VS Code workspace
+*.code-workspace
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
